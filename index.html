@@ -6,257 +6,241 @@
 <title>✨ 8/3 • Lớp 11B2 - THPT Châu Thành ✨</title>
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Be+Vietnam+Pro:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
-:root{
-  --pink:#ff5c8a; --rose:#e91e63; --gold:#ffd700; --deep:#4a0e2e;
-}
+:root{--pink:#ff5c8a;--rose:#e91e63;--gold:#ffd700;--light:#ffd9e6}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
-  font-family:'Be Vietnam Pro',sans-serif;
-  background:linear-gradient(160deg,#2b0a1e 0%,#4a0e2e 30%,#7a1f4d 60%,#b0356b 100%);
-  color:#fff; min-height:100vh; overflow-x:hidden; text-align:center;
-}
-/* ===== CANVAS PHÁO HOA + MƯA HOA ===== */
-#fx{position:fixed;inset:0;z-index:0;pointer-events:none}
-.petal{position:fixed;top:-40px;z-index:1;pointer-events:none;user-select:none;
-  animation:fall linear infinite}
-@keyframes fall{
-  0%{transform:translateY(-10vh) rotate(0deg) translateX(0);opacity:1}
-  50%{transform:translateY(50vh) rotate(180deg) translateX(40px)}
-  100%{transform:translateY(110vh) rotate(360deg) translateX(-30px);opacity:.3}
-}
-.wrap{position:relative;z-index:5;max-width:900px;margin:0 auto;padding:20px}
-/* ===== HERO ===== */
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:18px}
-.badge{
-  display:inline-block;padding:8px 22px;border-radius:50px;
-  background:rgba(255,255,255,.08);border:1px solid rgba(255,215,0,.4);
-  color:var(--gold);letter-spacing:3px;font-size:.85em;font-weight:600;
-  backdrop-filter:blur(8px);animation:glowPulse 2.5s infinite
-}
-@keyframes glowPulse{0%,100%{box-shadow:0 0 10px rgba(255,215,0,.3)}50%{box-shadow:0 0 30px rgba(255,215,0,.7)}}
-.hero h1{
-  font-family:'Dancing Script',cursive;font-size:clamp(2.6em,8vw,5.5em);line-height:1.1;
-  background:linear-gradient(90deg,#ffd700,#ff8fb0,#ffd700);
-  background-size:200% auto;-webkit-background-clip:text;background-clip:text;
-  color:transparent;animation:shine 3s linear infinite;
-  text-shadow:0 0 60px rgba(255,92,138,.35)
-}
-@keyframes shine{to{background-position:200% center}}
-.sub{font-size:clamp(1em,2.5vw,1.3em);color:#ffd9e6;font-weight:300;max-width:640px}
-.date{
-  font-size:clamp(2em,6vw,3.2em);font-weight:800;color:#fff;
-  text-shadow:0 0 30px rgba(255,92,138,.8);letter-spacing:2px
-}
-.countdown{display:flex;gap:14px;margin:14px 0;flex-wrap:wrap;justify-content:center}
-.cd-box{
-  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);
-  backdrop-filter:blur(10px);border-radius:16px;padding:14px 18px;min-width:78px;
-  box-shadow:0 8px 32px rgba(0,0,0,.3)
-}
-.cd-box b{display:block;font-size:1.9em;color:var(--gold)}
-.cd-box span{font-size:.75em;color:#ffd9e6;letter-spacing:1px}
-/* ===== PHONG THƯ 3D ===== */
-.env-scene{perspective:1000px;margin:30px 0}
-.envelope{
-  width:220px;height:140px;position:relative;cursor:pointer;margin:0 auto;
-  transform-style:preserve-3d;transition:transform .6s
-}
-.envelope:hover{transform:scale(1.08)}
-.env-back{position:absolute;inset:0;background:linear-gradient(135deg,#e91e63,#ad1457);border-radius:12px;box-shadow:0 20px 60px rgba(233,30,99,.5)}
-.env-flap{
-  position:absolute;top:0;left:0;width:0;height:0;z-index:3;transition:transform .6s;
-  border-left:110px solid transparent;border-right:110px solid transparent;
-  border-top:75px solid #ff5c8a;transform-origin:top
-}
+body{font-family:'Be Vietnam Pro',sans-serif;background:#1a0510;color:#fff;overflow-x:hidden;text-align:center}
+
+/* ===== PRELOADER ===== */
+#loader{position:fixed;inset:0;background:#1a0510;z-index:999;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:20px;transition:opacity .8s,visibility .8s}
+#loader.done{opacity:0;visibility:hidden}
+.loader-flower{font-size:4em;animation:spinFlower 1.6s ease-in-out infinite}
+@keyframes spinFlower{0%{transform:rotate(0) scale(1)}50%{transform:rotate(180deg) scale(1.3)}100%{transform:rotate(360deg) scale(1)}}
+.loader-bar{width:220px;height:4px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}
+.loader-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--gold));border-radius:99px;transition:width .3s}
+.loader-txt{color:var(--light);font-size:.9em;letter-spacing:2px}
+
+/* ===== CANVAS LAYER ===== */
+#bg{position:fixed;inset:0;z-index:0}
+#fw{position:fixed;inset:0;z-index:1;pointer-events:none}
+
+/* ===== CURSOR TRAIL ===== */
+.trail{position:fixed;pointer-events:none;z-index:2;font-size:14px;animation:trailUp 1s ease-out forwards}
+@keyframes trailUp{to{transform:translateY(-50px) scale(.3);opacity:0}}
+
+/* ===== LAYOUT ===== */
+.wrap{position:relative;z-index:5;max-width:960px;margin:0 auto;padding:20px}
+section{padding:60px 0}
+.badge{display:inline-block;padding:9px 24px;border-radius:50px;background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,215,0,.45);color:var(--gold);letter-spacing:3px;font-size:.8em;
+  font-weight:600;backdrop-filter:blur(10px)}
+h1.hero-title{font-family:'Dancing Script',cursive;font-size:clamp(3em,9vw,6em);line-height:1.1;margin:18px 0;
+  background:linear-gradient(90deg,#ffd700,#ff8fb0,#7ee8fa,#ffd700);background-size:300% auto;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 4s linear infinite;
+  filter:drop-shadow(0 0 30px rgba(255,92,138,.4))}
+@keyframes shine{to{background-position:300% center}}
+.hero-sub{color:var(--light);font-weight:300;max-width:620px;margin:0 auto;font-size:1.05em;line-height:1.9}
+.big-date{font-size:clamp(2.2em,7vw,3.6em);font-weight:800;margin:14px 0;letter-spacing:4px;
+  color:#fff;text-shadow:0 0 40px rgba(255,45,120,.9),0 0 80px rgba(255,45,120,.5)}
+
+/* ===== COUNTDOWN ===== */
+.countdown{display:flex;gap:14px;justify-content:center;margin:22px 0;flex-wrap:wrap}
+.cd{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(14px);
+  border-radius:18px;padding:16px 20px;min-width:84px;box-shadow:0 10px 40px rgba(0,0,0,.4);position:relative;overflow:hidden}
+.cd::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.12) 50%,transparent 70%);
+  transform:translateX(-100%);animation:sweep 3s infinite}
+@keyframes sweep{to{transform:translateX(100%)}}
+.cd b{display:block;font-size:2em;color:var(--gold);font-variant-numeric:tabular-nums}
+.cd span{font-size:.7em;color:var(--light);letter-spacing:2px}
+
+/* ===== ENVELOPE 3D ===== */
+.env-scene{perspective:1200px;margin:40px 0}
+.envelope{width:240px;height:150px;position:relative;cursor:pointer;margin:0 auto;transform-style:preserve-3d;transition:transform .5s}
+.envelope:hover{transform:translateY(-8px) rotateX(8deg)}
 .envelope.open .env-flap{transform:rotateX(180deg);z-index:1}
-.env-heart{
-  position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);z-index:4;
-  font-size:2.6em;animation:beat 1.2s infinite;transition:opacity .4s
-}
-.envelope.open .env-heart{opacity:0}
-@keyframes beat{0%,100%{transform:translate(-50%,-50%) scale(1)}25%{transform:translate(-50%,-50%) scale(1.25)}}
-.env-label{position:absolute;bottom:14px;left:0;right:0;font-size:.8em;color:#fff;z-index:2;opacity:.9}
-/* ===== THƯ ===== */
-.letter-card{
-  background:linear-gradient(135deg,#fff8fa,#ffeef5);
-  color:#7a1f4d;border-radius:24px;padding:44px 34px;margin:30px auto;
-  max-width:720px;text-align:left;line-height:2;font-size:1.02em;position:relative;
-  box-shadow:0 25px 80px rgba(0,0,0,.45);display:none;
-  border:1px solid rgba(233,30,99,.15)
-}
-.letter-card.show{display:block;animation:unfold .8s cubic-bezier(.2,.9,.3,1.2)}
-@keyframes unfold{from{transform:rotateX(-90deg) scale(.6);opacity:0}to{transform:rotateX(0) scale(1);opacity:1}}
-.letter-card h2{font-family:'Dancing Script',cursive;font-size:2em;color:var(--rose);text-align:center;margin-bottom:14px}
-.letter-card .sig{font-family:'Dancing Script',cursive;font-size:1.5em;color:var(--pink);text-align:right;margin-top:16px}
-.letter-card::before{
-  content:"💌";position:absolute;top:-22px;left:50%;transform:translateX(-50%);
-  font-size:2.6em;background:#fff;border-radius:50%;padding:6px 10px;
-  box-shadow:0 6px 20px rgba(233,30,99,.35)
-}
-/* ===== TIÊU ĐỀ SECTION ===== */
-.sec-title{
-  font-family:'Dancing Script',cursive;font-size:clamp(1.9em,5vw,3em);
-  margin:70px 0 8px;color:#ffd700;text-shadow:0 0 25px rgba(255,215,0,.4)
-}
-.sec-desc{color:#ffd9e6;font-weight:300;margin-bottom:26px}
-/* ===== VƯỜN HOA ===== */
-.garden{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;
-  padding:26px;border-radius:24px;
-  background:rgba(255,255,255,.05);backdrop-filter:blur(14px);
-  border:1px solid rgba(255,255,255,.12);box-shadow:0 20px 60px rgba(0,0,0,.35)
-}
-.flower-card{
-  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
-  border-radius:18px;padding:20px 10px;cursor:pointer;transition:all .3s;
-  position:relative;overflow:hidden
-}
-.flower-card:hover{transform:translateY(-8px) scale(1.04);background:rgba(255,92,138,.15);
-  box-shadow:0 12px 40px rgba(255,92,138,.35);border-color:rgba(255,215,0,.5)}
-.flower-card .emoji{font-size:2.6em;display:block;margin-bottom:8px;transition:transform .3s}
-.flower-card:hover .emoji{transform:scale(1.25) rotate(-8deg)}
-.flower-card .name{font-size:.9em;font-weight:600;color:#fff;line-height:1.4}
-.flower-card.opened{opacity:.55}
-.flower-card.opened::after{content:"✓";position:absolute;top:8px;right:10px;color:var(--gold);font-weight:800}
-.counter{
-  display:inline-block;margin:20px 0;padding:10px 26px;border-radius:50px;
-  background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.35);color:var(--gold);font-weight:600
-}
-/* ===== MODAL ===== */
-.modal{position:fixed;inset:0;background:rgba(20,0,10,.75);backdrop-filter:blur(6px);
-  z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
-.modal.show{display:flex;animation:fadeIn .3s}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.modal-box{
-  background:linear-gradient(145deg,#fff8fa,#ffe4ef);color:#7a1f4d;
-  border-radius:28px;padding:40px 32px;max-width:400px;width:100%;position:relative;
-  animation:zoomIn .45s cubic-bezier(.2,.9,.3,1.3);text-align:center;
-  box-shadow:0 30px 90px rgba(0,0,0,.6);border:2px solid rgba(255,215,0,.4)
-}
-@keyframes zoomIn{from{transform:scale(.5) rotate(-4deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
-.modal-box .m-emoji{font-size:4em;animation:beat2 1.4s infinite;display:block;margin-bottom:10px}
-@keyframes beat2{0%,100%{transform:scale(1)}30%{transform:scale(1.2)}}
-.modal-box h3{font-family:'Dancing Script',cursive;font-size:1.9em;color:var(--rose);margin-bottom:4px}
-.modal-box .m-tag{font-size:.85em;color:#b0356b;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
-.modal-box .m-msg{line-height:1.9;font-size:1.05em}
-.modal-box .m-sign{font-family:'Dancing Script',cursive;font-size:1.3em;color:var(--pink);margin-top:16px}
-.m-close{position:absolute;top:10px;right:16px;font-size:1.5em;cursor:pointer;color:#c2185b;opacity:.6}
-.m-close:hover{opacity:1}
-/* ===== NÚT BẤT NGỜ ===== */
-.surprise{
-  background:linear-gradient(90deg,#ff5c8a,#e91e63,#ff5c8a);background-size:200% auto;
-  color:#fff;border:none;padding:18px 42px;border-radius:50px;font-size:1.15em;
-  font-weight:800;cursor:pointer;margin:30px 0;letter-spacing:1px;
-  animation:beat3 1.3s infinite,shine 3s linear infinite;transition:transform .3s;
-  box-shadow:0 10px 40px rgba(233,30,99,.55);font-family:inherit
-}
-@keyframes beat3{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-.surprise:hover{transform:scale(1.08)}
-/* ===== ĐẠI TIỆC ===== */
-.party{
-  display:none;background:rgba(255,255,255,.07);backdrop-filter:blur(14px);
-  border:1px solid rgba(255,215,0,.4);border-radius:28px;padding:40px 26px;margin:30px 0;
-  box-shadow:0 25px 80px rgba(0,0,0,.4);animation:unfold .8s
-}
+.envelope.open .env-heart{opacity:0;transform:translate(-50%,-50%) scale(2)}
+.env-back{position:absolute;inset:0;background:linear-gradient(135deg,#e91e63,#7a0e3d);border-radius:14px;
+  box-shadow:0 25px 80px rgba(233,30,99,.55),inset 0 0 40px rgba(0,0,0,.25)}
+.env-flap{position:absolute;top:0;left:0;width:0;height:0;z-index:3;transition:all .7s cubic-bezier(.6,0,.3,1.4);
+  border-left:120px solid transparent;border-right:120px solid transparent;border-top:80px solid #ff5c8a;transform-origin:top;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,.3))}
+.env-heart{position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);z-index:4;font-size:2.8em;transition:all .5s;
+  animation:beat 1.2s infinite}
+@keyframes beat{0%,100%{transform:translate(-50%,-50%) scale(1)}25%{transform:translate(-50%,-50%) scale(1.3)}}
+.env-label{position:absolute;bottom:12px;left:0;right:0;font-size:.8em;color:#ffd9e6;z-index:2;letter-spacing:1px}
+.env-glow{position:absolute;inset:-20px;border-radius:30px;background:radial-gradient(circle,rgba(255,92,138,.35),transparent 70%);
+  animation:glowPulse 2s infinite;z-index:0}
+@keyframes glowPulse{0%,100%{opacity:.5}50%{opacity:1}}
+
+/* ===== LETTER TYPEWRITER ===== */
+.letter{background:linear-gradient(135deg,#fff8fa,#ffe9f2);color:#7a1f4d;border-radius:26px;padding:46px 36px;
+  margin:34px auto;max-width:740px;text-align:left;line-height:2.1;font-size:1.03em;display:none;position:relative;
+  box-shadow:0 30px 100px rgba(0,0,0,.5);border:1px solid rgba(233,30,99,.2)}
+.letter.show{display:block;animation:unfold .9s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes unfold{from{transform:rotateX(-80deg) translateY(-40px) scale(.7);opacity:0}to{transform:none;opacity:1}}
+.letter h2{font-family:'Dancing Script',cursive;font-size:2.1em;color:var(--rose);text-align:center;margin-bottom:16px}
+.letter .sig{font-family:'Dancing Script',cursive;font-size:1.5em;color:var(--pink);text-align:right;margin-top:18px}
+.cursor-type{display:inline-block;width:2px;height:1em;background:var(--rose);vertical-align:-2px;animation:blinkC .8s infinite}
+@keyframes blinkC{50%{opacity:0}}
+
+/* ===== SECTION TITLES + REVEAL ===== */
+.sec-title{font-family:'Dancing Script',cursive;font-size:clamp(2em,5.5vw,3.2em);color:var(--gold);
+  text-shadow:0 0 30px rgba(255,215,0,.45);margin-bottom:10px}
+.sec-desc{color:var(--light);font-weight:300;margin-bottom:28px;line-height:1.9}
+.reveal{opacity:0;transform:translateY(50px);transition:all .9s cubic-bezier(.2,.8,.3,1)}
+.reveal.on{opacity:1;transform:none}
+
+/* ===== GARDEN 3D FLIP CARDS ===== */
+.garden{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px;padding:26px;border-radius:26px;
+  background:rgba(255,255,255,.04);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 25px 80px rgba(0,0,0,.4)}
+.flip{perspective:900px;cursor:pointer;height:190px}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform .8s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d}
+.flip.flipped .flip-inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:20px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:16px}
+.face-front{background:linear-gradient(145deg,rgba(255,92,138,.15),rgba(255,255,255,.06));
+  border:1px solid rgba(255,255,255,.15);transition:box-shadow .3s}
+.flip:hover .face-front{box-shadow:0 12px 40px rgba(255,92,138,.4);border-color:rgba(255,215,0,.5)}
+.face-front .fe{font-size:3em;margin-bottom:10px;transition:transform .3s}
+.flip:hover .face-front .fe{transform:scale(1.3) rotate(-10deg)}
+.face-front .fn{font-weight:600;font-size:.95em;line-height:1.4}
+.face-back{background:linear-gradient(145deg,#fff8fa,#ffe4ef);color:#7a1f4d;transform:rotateY(180deg);
+  border:2px solid rgba(255,215,0,.5);font-size:.82em;line-height:1.7;overflow:hidden}
+.face-back .bn{font-family:'Dancing Script',cursive;font-size:1.3em;color:var(--rose);margin-bottom:6px}
+.counter{display:inline-block;margin:18px 0;padding:12px 30px;border-radius:50px;background:rgba(255,215,0,.1);
+  border:1px solid rgba(255,215,0,.4);color:var(--gold);font-weight:600;backdrop-filter:blur(10px)}
+.progress-bar{width:min(420px,80%);height:8px;background:rgba(255,255,255,.08);border-radius:99px;margin:12px auto;overflow:hidden}
+.progress-bar i{display:block;height:100%;width:0;transition:width .5s;border-radius:99px;
+  background:linear-gradient(90deg,var(--pink),var(--gold));box-shadow:0 0 15px rgba(255,215,0,.7)}
+
+/* ===== SURPRISE ===== */
+.surprise{background:linear-gradient(90deg,#ff5c8a,#ff2d78,#ffd700,#ff5c8a);background-size:300% auto;color:#fff;
+  border:none;padding:20px 48px;border-radius:60px;font-size:1.15em;font-weight:800;cursor:pointer;margin:26px 0;
+  letter-spacing:1px;animation:beat3 1.2s infinite,shine 3s linear infinite;font-family:inherit;
+  box-shadow:0 12px 50px rgba(233,30,99,.6)}
+@keyframes beat3{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.surprise:hover{transform:scale(1.1)}
+
+/* ===== PARTY ===== */
+.party{display:none;background:linear-gradient(145deg,rgba(255,215,0,.08),rgba(255,255,255,.04));
+  backdrop-filter:blur(16px);border:2px solid rgba(255,215,0,.5);border-radius:30px;padding:44px 26px;margin:26px 0;
+  box-shadow:0 30px 100px rgba(0,0,0,.5),inset 0 0 60px rgba(255,215,0,.06);animation:unfold .9s}
 .party.show{display:block}
-.party h2{font-family:'Dancing Script',cursive;font-size:2.2em;color:var(--gold);margin-bottom:16px}
-.party .mega{font-size:1.5em;font-weight:800;color:#fff;margin:16px 0;
-  text-shadow:0 0 20px rgba(255,92,138,.7);animation:blink 1s infinite}
-@keyframes blink{50%{opacity:.7}}
-.party .crew{font-size:1.1em;line-height:2.2;color:#ffd9e6}
+.party h2{font-family:'Dancing Script',cursive;font-size:2.6em;color:var(--gold);margin-bottom:14px}
+.party .crown{font-size:3em;animation:beat3 1s infinite}
+.mega{font-size:1.4em;font-weight:800;color:#fff;margin:18px 0;line-height:1.7;
+  text-shadow:0 0 25px rgba(255,45,120,.9);animation:blinkM 1.2s infinite}
+@keyframes blinkM{50%{opacity:.75}}
+.party .crew{color:var(--light);line-height:2.3;font-size:1.05em}
+
+/* ===== WISHES MARQUEE ===== */
+.marquee{overflow:hidden;white-space:nowrap;padding:20px 0;border-top:1px solid rgba(255,255,255,.08);
+  border-bottom:1px solid rgba(255,255,255,.08);margin:40px 0}
+.marquee div{display:inline-block;animation:slide 22s linear infinite;font-size:1.3em;color:var(--light)}
+@keyframes slide{to{transform:translateX(-50%)}}
+
 /* ===== FOOTER ===== */
-footer{padding:60px 20px 40px;color:#ffd9e6;font-size:.95em;font-weight:300}
-footer .love{font-family:'Dancing Script',cursive;font-size:1.6em;color:#ff8fb0}
-.divider{width:120px;height:2px;margin:14px auto;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-/* ===== NÚT NHẠC ===== */
-.music-btn{
-  position:fixed;top:16px;right:16px;z-index:300;width:48px;height:48px;border-radius:50%;
-  background:rgba(255,255,255,.1);border:1px solid rgba(255,215,0,.5);color:var(--gold);
-  font-size:1.3em;cursor:pointer;backdrop-filter:blur(10px);transition:transform .3s
+footer{padding:70px 20px 50px;color:var(--light);font-weight:300;line-height:2}
+footer .love{font-family:'Dancing Script',cursive;font-size:1.8em;color:#ff8fb0}
+.divider{width:140px;height:2px;margin:16px auto;border-radius:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+
+/* ===== MISC BUTTONS ===== */
+.fab{position:fixed;z-index:300;width:50px;height:50px;border-radius:50%;font-size:1.3em;cursor:pointer;
+  backdrop-filter:blur(12px);transition:transform .3s;border:none;color:#fff}
+#musicBtn{top:16px;right:16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,215,0,.5)}
+#topBtn{bottom:22px;right:22px;background:rgba(233,30,99,.9);display:none;box-shadow:0 8px 30px rgba(233,30,99,.6)}
+.fab:hover{transform:scale(1.15) rotate(12deg)}
+
+@media(max-width:640px){
+  .garden{grid-template-columns:repeat(2,1fr);padding:16px;gap:12px}
+  .cd{min-width:66px;padding:12px}.cd b{font-size:1.5em}
+  .letter{padding:32px 20px}
 }
-.music-btn:hover{transform:scale(1.15) rotate(10deg)}
-/* ===== NÚT VỀ ĐẦU ===== */
-.top-btn{
-  position:fixed;bottom:22px;right:22px;z-index:300;width:46px;height:46px;border-radius:50%;
-  background:rgba(233,30,99,.85);border:none;color:#fff;font-size:1.2em;cursor:pointer;
-  display:none;box-shadow:0 6px 24px rgba(233,30,99,.5)
-}
-@media(max-width:600px){.garden{grid-template-columns:repeat(2,1fr)}.cd-box{min-width:64px;padding:10px 12px}}
 </style>
 </head>
 <body>
-<canvas id="fx"></canvas>
-<button class="music-btn" id="musicBtn" title="Bật/tắt nhạc">🎵</button>
-<button class="top-btn" id="topBtn" onclick="scrollTo({top:0,behavior:'smooth'})">⬆</button>
+
+<!-- PRELOADER -->
+<div id="loader">
+  <div class="loader-flower">🌸</div>
+  <div class="loader-bar"><i id="lbar"></i></div>
+  <div class="loader-txt" id="ltxt">Đang chuẩn bị món quà bất ngờ...</div>
+</div>
+
+<canvas id="bg"></canvas>
+<canvas id="fw"></canvas>
+<button class="fab" id="musicBtn">🎵</button>
+<button class="fab" id="topBtn" onclick="scrollTo({top:0,behavior:'smooth'})">⬆</button>
 
 <div class="wrap">
+
   <!-- HERO -->
-  <section class="hero">
+  <section style="min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:16px">
     <span class="badge">🌸 8 THÁNG 3 • NGÀY QUỐC TẾ PHỤ NỮ 🌸</span>
-    <h1>Gửi Những Đóa Hoa<br>Lớp 11B2</h1>
-    <p class="sub">Dành tặng 22 công chúa tuyệt vời nhất của lớp 11B2 —
-    Trường THPT Châu Thành. Một món quà nhỏ, nhưng chứa cả big-hearted
-    của hội con trai chúng tối 💖</p>
-    <div class="date">✨ 08 . 03 . 2026 ✨</div>
-    <div class="countdown" id="countdown">
-      <div class="cd-box"><b id="cdD">--</b><span>NGÀY</span></div>
-      <div class="cd-box"><b id="cdH">--</b><span>GIỜ</span></div>
-      <div class="cd-box"><b id="cdM">--</b><span>PHÚT</span></div>
-      <div class="cd-box"><b id="cdS">--</b><span>GIÂY</span></div>
+    <h1 class="hero-title">Gửi Những Đóa Hoa<br>Lớp 11B2</h1>
+    <p class="hero-sub">Dành tặng 22 công chúa tuyệt vời nhất của lớp 11B2 — Trường THPT Châu Thành.<br>
+    Món quà này được coded bằng cả trái tim của hội con trai 💖</p>
+    <div class="big-date">✨ 08 . 03 ✨</div>
+    <div class="countdown">
+      <div class="cd"><b id="cdD">--</b><span>NGÀY</span></div>
+      <div class="cd"><b id="cdH">--</b><span>GIỜ</span></div>
+      <div class="cd"><b id="cdM">--</b><span>PHÚT</span></div>
+      <div class="cd"><b id="cdS">--</b><span>GIÂY</span></div>
     </div>
     <div class="env-scene">
       <div class="envelope" id="envelope" onclick="openLetter()">
+        <div class="env-glow"></div>
         <div class="env-back"></div>
         <div class="env-flap"></div>
         <div class="env-heart">💌</div>
-        <div class="env-label">Chạm để mở thư ✨</div>
+        <div class="env-label">Chạm để mở tâm thư ✨</div>
       </div>
     </div>
-    <p class="sub" style="font-size:.9em">👇 Cuộn xuống để khám phá khu vườn bí mật 👇</p>
+    <p class="hero-sub" style="font-size:.85em">⬇ Cuộn xuống để khám phá khu vườn bí mật ⬇</p>
   </section>
 
-  <!-- THƯ -->
-  <div class="letter-card" id="letter">
+  <!-- LETTER -->
+  <div class="letter" id="letter">
     <h2>📎 Tâm thư từ hội con trai 11B2</h2>
-    <p>Gửi 22 bông hoa xinh đẹp nhất của tập thể 11B2 – THPT Châu Thành,</p>
-    <p>Tháng Ba về, mang theo tiết xuân ấm áp và những đóa hoa bắt đầu khoe sắc.
-    Cũng là lúc hội con trai 11B2 chúng tối muốn gửi tới các cậu những lời chúc
-    ngọt ngào và chân thành nhất nhân ngày Quốc tế Phụ nữ 8/3! 🌷</p>
-    <p>Cảm ơn 22 mảnh ghép dịu dàng, thông minh và đáng yêu — đã khiến từng tiết
-    học, từng giờ ra chơi của 11B2 dưới mái trường THPT Châu Thành trở nên rộn ràng
-    và đầy ắp tiếng cười. Đôi khi tụi con trai hơi vụng về, hay trêu chọc các cậu
-    thế thôi, chứ trong lòng luôn ngưỡng mộ và trân quý các cậu thật nhiều.</p>
-    <p>Chúc các bạn nữ 11B2 ngày 8/3 ngập tràn niềm vui, luôn xinh tươi như hoa nở
-    mùa xuân, học tập thật đỉnh, đạt điểm 9 điểm 10 rực rỡ, và cùng nhau viết nên
-    thật nhiều kỷ niệm thanh xuân tuyệt đẹp nhé!</p>
+    <p id="typeBox"><span class="cursor-type"></span></p>
     <p class="sig">Thương gửi — Hội Nam sinh 11B2 💝</p>
   </div>
 
-  <!-- VƯỜN HOA -->
-  <h2 class="sec-title">🌷 Khu Vườn 22 Đóa Hoa Độc Bản 🌷</h2>
-  <p class="sec-desc">Mỗi bông hoa mang tên một bạn nữ của 11B2.<br>
-  Chạm vào từng đóa hoa để đọc lời chúc riêng — mở đủ 22 hoa có điều bất ngờ! 👀</p>
-  <div class="counter">🌸 Đã mở: <span id="count">0</span> / 22 đóa hoa</div>
-  <div class="garden" id="garden"></div>
+  <!-- MARQUEE -->
+  <div class="marquee reveal"><div id="mq"></div></div>
 
-  <!-- BẤT NGỜ -->
-  <h2 class="sec-title">🎁 Tiết Mục Đặc Biệt Nhất Hôm Nay 🎁</h2>
-  <p class="sec-desc">Khoan đã... đừng vội đóng trang nhé!<br>
-  Những bông hoa trên chỉ mới là màn khởi động thôi.<br>
-  Hội con trai 11B2 vẫn còn giấu một bí mật <b>siêu to khổng lồ</b> dành cho các cậu!</p>
-  <button class="surprise" onclick="showParty()">🎉 CÒN MỘT ĐIỀU BẤT NGỜ... NHẤN VÀO ĐÂY! 💐</button>
-  <div class="party" id="party">
-    <h2>🎊 Đại Tiệc Bất Ngờ 8/3 🎊</h2>
-    <div style="font-size:2em">💐 👑 🌹 👑 💐</div>
-    <p><b>Ting ting! 📢 Thông báo khẩn từ các chàng trai 11B2:</b></p>
-    <p class="mega">MỜI CÁC BẠN NHÌN RA CỬA LỚP<br>ĐỂ NHẬN HOA THẬT NHÉ! 🌹</p>
-    <p class="mega">1... 2... 3... QUAY RA CỬA LỚP NGAY! 🏃‍♂️💨</p>
-    <div class="divider"></div>
-    <p class="crew">🏃‍♂️💐 Nam 11B2 &nbsp;•&nbsp; 🧑‍🎓🌹 Shipper Hoa &nbsp;•&nbsp; 💃🌷🎁 Soái Ca 11B2<br>
-    💝 &nbsp;•&nbsp; 🎁🌷💃 Ga-lăng 11B2 &nbsp;•&nbsp; 🌹🧑‍🎓 Hoàng Tử Hoa &nbsp;•&nbsp; 💐🏃‍♂️ Nam 11B2</p>
-    <div style="font-size:1.6em;margin-top:14px">🌸🌺🌷🌹💖🌼🌸🌺🌷🌹💖</div>
-  </div>
+  <!-- GARDEN -->
+  <section>
+    <h2 class="sec-title reveal">🌷 Khu Vườn 22 Đóa Hoa Độc Bản 🌷</h2>
+    <p class="sec-desc reveal">Mỗi bông hoa mang tên một bạn nữ của 11B2 — chạm để lật ra lời chúc riêng.<br>
+    <b>Mở đủ 22 hoa sẽ có điều bất ngờ cực lớn! 👀</b></p>
+    <div class="counter reveal">🌸 Đã mở: <span id="count">0</span> / 22 đóa hoa</div>
+    <div class="progress-bar reveal"><i id="pbar"></i></div>
+    <div class="garden reveal" id="garden"></div>
+  </section>
+
+  <!-- SURPRISE -->
+  <section>
+    <h2 class="sec-title reveal">🎁 Tiết Mục Đặc Biệt Nhất Hôm Nay 🎁</h2>
+    <p class="sec-desc reveal">Khoan đã... đừng vội đóng trang nhé!<br>
+    Những bông hoa trên chỉ mới là màn khởi động thôi.<br>
+    Hội con trai 11B2 vẫn còn giấu một bí mật <b>siêu to khổng lồ</b> dành cho các cậu!</p>
+    <button class="surprise reveal" onclick="showParty()">🎉 CÒN MỘT ĐIỀU BẤT NGỜ... NHẤN VÀO ĐÂY! 💐</button>
+    <div class="party" id="party">
+      <div class="crown">💐👑🌹👑💐</div>
+      <h2>Đại Tiệc Bất Ngờ 8/3</h2>
+      <p><b>Ting ting! 📢 Thông báo khẩn từ các chàng trai 11B2:</b></p>
+      <p class="mega">MỜI CÁC BẠN NHÌN RA CỬA LỚP<br>ĐỂ NHẬN HOA THẬT NHÉ! 🌹</p>
+      <p class="mega">1... 2... 3... QUAY RA CỬA LỚP NGAY! 🏃‍♂️💨</p>
+      <div class="divider"></div>
+      <p class="crew">🏃‍♂️💐 Nam 11B2 &nbsp;•&nbsp; 🧑‍🎓🌹 Shipper Hoa &nbsp;•&nbsp; 💃🌷🎁 Soái Ca 11B2<br>
+      💝 &nbsp;•&nbsp; 🎁🌷💃 Ga-lăng 11B2 &nbsp;•&nbsp; 🌹🧑‍🎓 Hoàng Tử Hoa &nbsp;•&nbsp; 💐🏃‍♂️ Nam 11B2</p>
+      <div style="font-size:1.7em;margin-top:16px;letter-spacing:6px">🌸🌺🌷🌹💖🌼🌸🌺🌷🌹💖</div>
+    </div>
+  </section>
 
   <footer>
     <div class="love">Coded with 💖 by Tập thể Nam sinh 11B2</div>
@@ -266,158 +250,241 @@ footer .love{font-family:'Dancing Script',cursive;font-size:1.6em;color:#ff8fb0}
   </footer>
 </div>
 
-<!-- MODAL -->
-<div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
-  <div class="modal-box">
-    <span class="m-close" onclick="closeModal()">✕</span>
-    <span class="m-emoji" id="mEmoji">🌸</span>
-    <h3 id="mName"></h3>
-    <p class="m-tag">✨ Đóa hoa rạng rỡ của 11B2 ✨</p>
-    <p class="m-msg" id="mMsg"></p>
-    <p class="m-sign">— Hội nam sinh 11B2 💝</p>
-  </div>
-</div>
-
 <script>
-/* ================= DỮ LIỆU 22 BẠN NỮ ================= */
+/* ═══════════ DỮ LIỆU 22 BẠN NỮ ═══════════ */
 const girls=[
- {name:"Châu Nguyễn Khả Ái",msg:"Chúc Ái ngày 8/3 thật rực rỡ — luôn tự tin, xinh đẹp và chinh phục mọi điểm 10 nhé! 💖"},
- {name:"Lê Kim Anh",msg:"Chúc Kim Anh ngày 8/3 ngập tràn niềm vui, luôn tươi cười như đóa hoa nở sớm mùa xuân! 🌸"},
- {name:"Trương Khánh Băng",msg:"Chúc Băng ngày 8/3 thật ngọt ngào — mong mọi điều đẹp nhất luôn tìm đến cậu! 💝"},
- {name:"Thị Mỹ Đào",msg:"Chúc Mỹ Đào ngày 8/3 rạng rỡ như nắng xuân, học giỏi và hạnh phúc nhé! 🌷"},
- {name:"Lê Thị Cẩm Giang",msg:"Chúc Cẩm Giang ngày 8/3 vui vẻ, luôn lạc quan và tỏa sáng theo cách riêng của mình! 💕"},
- {name:"Thị Mỹ Hậu",msg:"Chúc Mỹ Hậu ngày 8/3 ngập tràn yêu thương — luôn xinh đẹp và mạnh mẽ nhé! 🌺"},
- {name:"Lê Thị Huyền",msg:"Chúc Huyền ngày 8/3 thật rực rỡ, và mùa xuân này thật nhiều niềm vui! ✨"},
- {name:"Lê Thị Ngọc Huyền",msg:"Chúc Ngọc Huyền ngày 8/3 luôn xinh tươi, vui vẻ và gặt hái thật nhiều thành công! 🌸"},
- {name:"Phạm Ngọc Huỳnh",msg:"Chúc Ngọc Huỳnh ngày 8/3 thật đặc biệt — luôn đáng yêu và rạng rỡ như hôm nay! 💖"},
- {name:"Danh Thiên Kiều",msg:"Chúc Thiên Kiều ngày 8/3 ngập tràn niềm vui và những điều kỳ diệu nhất! 🌷"},
- {name:"Lý Tú Mỹ",msg:"Chúc Tú Mỹ ngày 8/3 luôn xinh đẹp, tự tin — như cái tên quá xứng với cậu! 💝"},
- {name:"Lâm Thị Hồng Ngọc",msg:"Chúc Hồng Ngọc ngày 8/3 thật rực rỡ như viên ngọc sáng nhất của 11B2! 💎"},
- {name:"Võ Như Ngọc",msg:"Chúc Như Ngọc ngày 8/3 ngọt ngào, hạnh phúc và luôn thành công trên mọi hành trình! 🌺"},
- {name:"Vũ Nguyễn Hạnh Nguyên",msg:"Chúc Hạnh Nguyên ngày 8/3 thật ấm áp — đúng như cái tên chứa đựng hạnh phúc của cậu! 💕"},
- {name:"Võ Ngọc Nhung",msg:"Chúc Ngọc Nhung ngày 8/3 luôn xinh tươi như bông hoa đầu xuân vừa nở! 🌷"},
- {name:"Lưu Ngọc Nữ",msg:"Chúc Ngọc Nữ ngày 8/3 thật đặc biệt — luôn đáng yêu và rạng rỡ nhé! 💖"},
- {name:"Võ Ngọc Thuỳ",msg:"Chúc Ngọc Thuỳ ngày 8/3 ngập tràn tiếng cười và những khoảnh khắc tuyệt vời! 🌸"},
- {name:"Nguyễn Minh Thư",msg:"Chúc Minh Thư ngày 8/3 luôn tỏa sáng — thông minh, xinh đẹp và đầy tự tin! ✨"},
- {name:"Tăng Anh Thư",msg:"Chúc Anh Thư ngày 8/3 vui vẻ, học giỏi và hạnh phúc trong mùa xuân này! 💝"},
- {name:"Huỳnh Trương Bích Trang",msg:"Chúc Bích Trang ngày 8/3 luôn rực rỡ như trang giấy đẹp nhất của thanh xuân 11B2! 🌺"},
- {name:"Huỳnh Kim Xuyến",msg:"Chúc Kim Xuyến ngày 8/3 thật ngọt ngào — luôn đáng yêu như vàng rực rỡ! 💕"},
- {name:"Lâm Ngọc Yến",msg:"Chúc Ngọc Yến ngày 8/3 ngập tràn yêu thương — luôn bay cao, bay xa như chú yến nhỏ! 🕊️🌷"}
+ {name:"Châu Nguyễn Khả Ái",msg:"Chúc Ái ngày 8/3 rực rỡ nhất — tự tin tỏa sáng và chinh phục mọi điểm 10 nhé! 💖"},
+ {name:"Lê Kim Anh",msg:"Chúc Kim Anh ngày 8/3 ngập niềm vui, tươi cười như đóa hoa nở sớm mùa xuân! 🌸"},
+ {name:"Trương Khánh Băng",msg:"Chúc Băng ngày 8/3 ngọt ngào — mọi điều đẹp nhất luôn tìm đến cậu! 💝"},
+ {name:"Thị Mỹ Đào",msg:"Chúc Mỹ Đào ngày 8/3 rạng rỡ như nắng xuân, học giỏi và hạnh phúc! 🌷"},
+ {name:"Lê Thị Cẩm Giang",msg:"Chúc Cẩm Giang ngày 8/3 vui vẻ, lạc quan và tỏa sáng theo cách riêng! 💕"},
+ {name:"Thị Mỹ Hậu",msg:"Chúc Mỹ Hậu ngày 8/3 ngập tràn yêu thương — xinh đẹp và mạnh mẽ nhé! 🌺"},
+ {name:"Lê Thị Huyền",msg:"Chúc Huyền ngày 8/3 thật rực rỡ, mùa xuân này thật nhiều niềm vui! ✨"},
+ {name:"Lê Thị Ngọc Huyền",msg:"Chúc Ngọc Huyền ngày 8/3 luôn xinh tươi và gặt hái thật nhiều thành công! 🌸"},
+ {name:"Phạm Ngọc Huỳnh",msg:"Chúc Ngọc Huỳnh ngày 8/3 thật đặc biệt — đáng yêu và rạng rỡ như hôm nay! 💖"},
+ {name:"Danh Thiên Kiều",msg:"Chúc Thiên Kiều ngày 8/3 ngập tràn niềm vui và những điều kỳ diệu! 🌷"},
+ {name:"Lý Tú Mỹ",msg:"Chúc Tú Mỹ ngày 8/3 luôn xinh đẹp, tự tin — tên gọi quá xứng với cậu! 💝"},
+ {name:"Lâm Thị Hồng Ngọc",msg:"Chúc Hồng Ngọc ngày 8/3 rực rỡ như viên ngọc sáng nhất của 11B2! 💎"},
+ {name:"Võ Như Ngọc",msg:"Chúc Như Ngọc ngày 8/3 ngọt ngào, hạnh phúc trên mọi hành trình! 🌺"},
+ {name:"Vũ Nguyễn Hạnh Nguyên",msg:"Chúc Hạnh Nguyên ngày 8/3 thật ấm áp — đúng như cái tên chứa hạnh phúc! 💕"},
+ {name:"Võ Ngọc Nhung",msg:"Chúc Ngọc Nhung ngày 8/3 xinh tươi như bông hoa đầu xuân vừa nở! 🌷"},
+ {name:"Lưu Ngọc Nữ",msg:"Chúc Ngọc Nữ ngày 8/3 thật đặc biệt — luôn đáng yêu và rạng rỡ! 💖"},
+ {name:"Võ Ngọc Thuỳ",msg:"Chúc Ngọc Thuỳ ngày 8/3 ngập tràn tiếng cười và khoảnh khắc tuyệt vời! 🌸"},
+ {name:"Nguyễn Minh Thư",msg:"Chúc Minh Thư ngày 8/3 luôn tỏa sáng — thông minh, xinh đẹp, tự tin! ✨"},
+ {name:"Tăng Anh Thư",msg:"Chúc Anh Thư ngày 8/3 vui vẻ, học giỏi và hạnh phúc mùa xuân này! 💝"},
+ {name:"Huỳnh Trương Bích Trang",msg:"Chúc Bích Trang ngày 8/3 rực rỡ như trang giấy đẹp nhất của thanh xuân 11B2! 🌺"},
+ {name:"Huỳnh Kim Xuyến",msg:"Chúc Kim Xuyến ngày 8/3 ngọt ngào — đáng yêu và quý như vàng rũ! 💕"},
+ {name:"Lâm Ngọc Yến",msg:"Chúc Ngọc Yến ngày 8/3 ngập yêu thương — bay cao xa như chú yến nhỏ! 🕊️🌷"}
 ];
-const emojis=["🌸","🌷","🌹","🌺","🌼","🌻","💐","🪷","🌸","🌷","🌹","🌺","🌼","🌻","💐","🪷","🌸","🌷","🌹","🌺","🌼","🌻"];
+const emojis=["🌸","🌷","🌹","🌺","🌼","🌻","💐","🪷"];
 
-/* ================= VƯỜN HOA ================= */
-let opened=0;
-const garden=document.getElementById("garden");
-girls.forEach((g,i)=>{
-  const c=document.createElement("div");
-  c.className="flower-card";
-  c.innerHTML=`<span class="emoji">${emojis[i]}</span><div class="name">${g.name}</div>`;
-  c.onclick=()=>{
-    document.getElementById("mEmoji").textContent=emojis[i];
-    document.getElementById("mName").textContent=g.name;
-    document.getElementById("mMsg").textContent=g.msg;
-    document.getElementById("modal").classList.add("show");
-    if(!c.classList.contains("opened")){
-      c.classList.add("opened");
-      document.getElementById("count").textContent=++opened;
-      firework(); // nổ pháo hoa nhỏ khi mở hoa
-      if(opened===girls.length){ setTimeout(bigFinale,600); }
-    }
-  };
-  garden.appendChild(c);
+/* ═══════════ PRELOADER ═══════════ */
+let prog=0;
+const lInt=setInterval(()=>{
+  prog=Math.min(100,prog+Math.random()*22);
+  document.getElementById("lbar").style.width=prog+"%";
+  if(prog>=100){
+    clearInterval(lInt);
+    document.getElementById("ltxt").textContent="Sẵn sàng! 💌";
+    setTimeout(()=>document.getElementById("loader").classList.add("done"),500);
+    setTimeout(()=>{rocketFirework();rocketFirework();},1000);
+  }
+},180);
+
+/* ═══════════ NỀN SAO + AURORA ═══════════ */
+const bg=document.getElementById("bg"),bctx=bg.getContext("2d");
+const fw=document.getElementById("fw"),fctx=fw.getContext("2d");
+let W,H;
+function size(){W=bg.width=fw.width=innerWidth;H=bg.height=fw.height=innerHeight}
+size();addEventListener("resize",size);
+const stars=Array.from({length:160},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.4+.3,tw:Math.random()*Math.PI*2,sp:.01+Math.random()*.03}));
+function drawBg(t){
+  bctx.clearRect(0,0,W,H);
+  // aurora
+  for(let i=0;i<3;i++){
+    const g=bctx.createRadialGradient(W*(.2+.3*i)+Math.sin(t/4000+i)*120,H*.25+Math.cos(t/5000+i)*80,0,W*(.2+.3*i),H*.3,W*.55);
+    g.addColorStop(0,["rgba(233,30,99,.10)","rgba(255,45,120,.07)","rgba(120,30,180,.09)"][i]);
+    g.addColorStop(1,"transparent");
+    bctx.fillStyle=g;bctx.fillRect(0,0,W,H);
+  }
+  // stars twinkle
+  stars.forEach(s=>{
+    s.tw+=s.sp;
+    bctx.globalAlpha=.35+Math.abs(Math.sin(s.tw))*.65;
+    bctx.fillStyle="#fff";
+    bctx.beginPath();bctx.arc(s.x,s.y,s.r,0,7);bctx.fill();
+  });
+  bctx.globalAlpha=1;
+  requestAnimationFrame(drawBg);
+}
+requestAnimationFrame(drawBg);
+
+/* ═══════════ PHÁO HOA: TÊN LỮA + VỆT ĐUÔI ═══════════ */
+const COLORS=["#ff5c8a","#ffd700","#ff8fb0","#7ee8fa","#ff2d78","#ffb3d1","#fff"];
+let rockets=[],sparks=[];
+function rocketFirework(tx=Math.random()*W,ty=H*(.15+Math.random()*.3)){
+  rockets.push({x:tx,y:H,vx:(Math.random()-.5)*1.5,vy:-(11+Math.random()*4),ty,color:COLORS[Math.random()*COLORS.length|0]});
+}
+function explode(x,y,color){
+  const n=90;
+  for(let i=0;i<n;i++){
+    const a=Math.PI*2*i/n,v=2.2+Math.random()*3.5;
+    sparks.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:70+Math.random()*40,
+      color:Math.random()<.25?"#fff":color,size:1+Math.random()*2.2});
+  }
+  // vành sáng
+  for(let i=0;i<20;i++){
+    const a=Math.random()*Math.PI*2,v=5+Math.random()*2;
+    sparks.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:35,color:"#ffd700",size:.8});
+  }
+}
+function fwLoop(){
+  fctx.globalCompositeOperation="destination-out";
+  fctx.fillStyle="rgba(0,0,0,.18)";fctx.fillRect(0,0,W,H);
+  fctx.globalCompositeOperation="lighter";
+  rockets=rockets.filter(r=>r.vy<1.5);
+  rockets.forEach(r=>{
+    r.x+=r.vx;r.y+=r.vy;r.vy+=.22;
+    sparks.push({x:r.x,y:r.y,vx:(Math.random()-.5)*.6,vy:.5,life:22,color:r.color,size:1.2});
+    if(r.vy>=-1){explode(r.x,r.y,r.color);}
+  });
+  sparks=sparks.filter(p=>p.life>0);
+  sparks.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;p.vy+=.035;p.vx*=.985;p.vy*=.985;p.life--;
+    fctx.globalAlpha=Math.max(0,Math.min(1,p.life/45));
+    fctx.fillStyle=p.color;
+    fctx.beginPath();fctx.arc(p.x,p.y,p.size,0,7);fctx.fill();
+  });
+  fctx.globalAlpha=1;
+  requestAnimationFrame(fwLoop);
+}
+fwLoop();
+setInterval(()=>{if(Math.random()<.3)rocketFirework()},3000);
+function grandFinale(){for(let i=0;i<10;i++)setTimeout(rocketFirework,i*260)}
+
+/* ═══════════ VỆT TIM THEO CHUỘT ═══════════ */
+const hearts=["💖","💗","🌸","✨"];
+addEventListener("mousemove",e=>{
+  if(Math.random()<.25){
+    const s=document.createElement("span");
+    s.className="trail";s.textContent=hearts[Math.random()*hearts.length|0];
+    s.style.left=e.clientX-8+"px";s.style.top=e.clientY-8+"px";
+    document.body.appendChild(s);setTimeout(()=>s.remove(),1000);
+  }
 });
-function closeModal(){document.getElementById("modal").classList.remove("show")}
+
+/* ═══════════ THƯ GÕ CHỮ ═══════════ */
+const letterText=`Gửi 22 bông hoa xinh đẹp nhất của tập thể 11B2 – THPT Châu Thành,
+
+Tháng Ba về, mang theo tiết xuân ấm áp và những đóa hoa bắt đầu khoe sắc. Cũng là lúc hội con trai 11B2 chúng tối muốn gửi tới các cậu những lời chúc ngọt ngào và chân thành nhất nhân ngày Quốc tế Phụ nữ 8/3! 🌷
+
+Cảm ơn 22 mảnh ghép dịu dàng, thông minh và đáng yêu — đã khiến từng tiết học, từng giờ ra chơi của 11B2 dưới mái trường THPT Châu Thành trở nên rộn ràng và đầy ắp tiếng cười. Đôi khi tụi con trai hơi vụng về, hay trêu chọc các cậu thế thôi, chứ trong lòng luôn ngưỡng mộ và trân quý các cậu thật nhiều.
+
+Chúc các bạn nữ 11B2 ngày 8/3 ngập tràn niềm vui, luôn xinh tươi như hoa nở mùa xuân, học tập thật đỉnh, đạt điểm 9 điểm 10 rực rỡ, và cùng nhau viết nên thật nhiều kỷ niệm thanh xuân tuyệt đẹp nhé!`;
+let typed=false;
 function openLetter(){
   document.getElementById("envelope").classList.add("open");
+  rocketFirework();rocketFirework();
   setTimeout(()=>{
     document.getElementById("letter").classList.add("show");
     document.getElementById("letter").scrollIntoView({behavior:"smooth",block:"center"});
-    firework();firework();
-  },500);
+    if(!typed){
+      typed=true;
+      const box=document.getElementById("typeBox");
+      let i=0;
+      (function type(){
+        if(i<=letterText.length){
+          box.innerHTML=letterText.slice(0,i).replace(/\n/g,"<br>")+'<span class="cursor-type"></span>';
+          i+=2;
+          setTimeout(type,18);
+        }else{box.querySelector(".cursor-type").remove();}
+      })();
+    }
+  },600);
 }
+
+/* ═══════════ VƯỜN HOA 3D FLIP ═══════════ */
+let opened=0;
+const garden=document.getElementById("garden");
+girls.forEach((g,i)=>{
+  const f=document.createElement("div");
+  f.className="flip";
+  f.innerHTML=`
+    <div class="flip-inner">
+      <div class="face face-front"><span class="fe">${emojis[i%emojis.length]}</span><div class="fn">${g.name}</div></div>
+      <div class="face face-back"><div class="bn">🌸 ${g.name}</div><div>${g.msg}</div></div>
+    </div>`;
+  f.onclick=()=>{
+    if(!f.classList.contains("flipped")){
+      f.classList.add("flipped");
+      document.getElementById("count").textContent=++opened;
+      document.getElementById("pbar").style.width=(opened/girls.length*100)+"%";
+      rocketFirework();
+      if(opened===girls.length)setTimeout(()=>{grandFinale();alert("🌸 Chúc mừng! Bạn đã mở đủ 22 đóa hoa — đây là món quà bất ngờ từ hội con trai 11B2! Hãy cuộn xuống dưới nhé 💝");},700);
+    }
+  };
+  garden.appendChild(f);
+});
+
+/* ═══════════ PARTY + CONFETTI VẬT LÝ ═══════════ */
 function showParty(){
   const p=document.getElementById("party");
-  p.classList.add("show");p.scrollIntoView({behavior:"smooth",block:"center"});
-  bigFinale();
+  p.classList.add("show");
+  p.scrollIntoView({behavior:"smooth",block:"center"});
+  grandFinale();
+  confettiRain();
 }
-/* ================= ĐẾM NGƯỢC 8/3 ================= */
+function confettiRain(){
+  for(let i=0;i<80;i++){
+    const c=document.createElement("div");
+    c.style.cssText=`position:fixed;top:-20px;left:${Math.random()*100}vw;z-index:9;pointer-events:none;
+      width:${6+Math.random()*8}px;height:${8+Math.random()*10}px;
+      background:${["#ff5c8a","#ffd700","#ff8fb0","#7ee8fa","#fff"][Math.random()*5|0]};
+      border-radius:${Math.random()<.5?"50%":"2px"};
+      transition:transform ${3+Math.random()*3}s linear,opacity ${3+Math.random()*3}s`;
+    document.body.appendChild(c);
+    requestAnimationFrame(()=>{
+      c.style.transform=`translateY(${H+80}px) rotate(${Math.random()*720}deg)`;
+      c.style.opacity=0;
+    });
+    setTimeout(()=>c.remove(),6500);
+  }
+}
+
+/* ═══════════ ĐẾM NGƯỢC ═══════════ */
 function tick(){
   const now=new Date();
   let target=new Date(now.getFullYear(),2,8);
-  if(now>target) target=new Date(now.getFullYear()+1,2,8);
-  const diff=target-now;
-  const d=Math.floor(diff/864e5),h=Math.floor(diff/36e5)%24,
-        m=Math.floor(diff/6e4)%60,s=Math.floor(diff/1e3)%60;
-  document.getElementById("cdD").textContent=d;
-  document.getElementById("cdH").textContent=String(h).padStart(2,"0");
-  document.getElementById("cdM").textContent=String(m).padStart(2,"0");
-  document.getElementById("cdS").textContent=String(s).padStart(2,"0");
+  if(now>target)target=new Date(now.getFullYear()+1,2,8);
+  const d=target-now;
+  document.getElementById("cdD").textContent=Math.floor(d/864e5);
+  document.getElementById("cdH").textContent=String(Math.floor(d/36e5)%24).padStart(2,"0");
+  document.getElementById("cdM").textContent=String(Math.floor(d/6e4)%60).padStart(2,"0");
+  document.getElementById("cdS").textContent=String(Math.floor(d/1e3)%60).padStart(2,"0");
 }
 setInterval(tick,1000);tick();
 
-/* ================= PHÁO HOA CANVAS ================= */
-const cv=document.getElementById("fx"),ctx=cv.getContext("2d");
-let W,H,parts=[];
-function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight}
-resize();addEventListener("resize",resize);
-const COLORS=["#ff5c8a","#ffd700","#ff8fb0","#ffffff","#ff2d78","#ffb3d1"];
-function firework(x=Math.random()*W,y=Math.random()*H*.5){
-  const color=COLORS[Math.floor(Math.random()*COLORS.length)];
-  for(let i=0;i<70;i++){
-    const a=Math.random()*Math.PI*2,v=2+Math.random()*4;
-    parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:60+Math.random()*40,color,size:1+Math.random()*2.5});
-  }
-}
-function bigFinale(){for(let i=0;i<7;i++)setTimeout(()=>firework(),i*220)}
-function loop(){
-  ctx.globalCompositeOperation="destination-out";
-  ctx.fillStyle="rgba(0,0,0,.15)";ctx.fillRect(0,0,W,H);
-  ctx.globalCompositeOperation="lighter";
-  parts=parts.filter(p=>p.life>0);
-  parts.forEach(p=>{
-    p.x+=p.vx;p.y+=p.vy;p.vy+=.03;p.vx*=.985;p.vy*=.985;p.life--;
-    ctx.globalAlpha=Math.min(1,p.life/40);
-    ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,7);ctx.fill();
-  });
-  ctx.globalAlpha=1;
-  requestAnimationFrame(loop);
-}
-loop();
-setInterval(()=>{ if(Math.random()<.25) firework(); },2500);
-setTimeout(()=>{firework(W*.3,H*.3);firework(W*.7,H*.35)},1200);
+/* ═══════════ MARQUEE ═══════════ */
+const mqTxt="🌸 Chúc các bạn nữ 11B2 ngày 8/3 xinh đẹp rực rỡ 🌷 Luôn vui vẻ và học giỏi 💖 Điểm 9 điểm 10 đang chờ các cậu 🌹 Thanh xuân 11B2 mãi mãi rực rỡ ✨ ";
+document.getElementById("mq").textContent=mqTxt+mqTxt;
 
-/* ================= MƯA CÁNH HOA ================= */
-const petalEmojis=["🌸","🌷","🌺","💖","✨"];
-setInterval(()=>{
-  const p=document.createElement("span");
-  p.className="petal";
-  p.textContent=petalEmojis[Math.floor(Math.random()*petalEmojis.length)];
-  p.style.left=Math.random()*100+"vw";
-  p.style.fontSize=(12+Math.random()*16)+"px";
-  p.style.animationDuration=(6+Math.random()*6)+"s";
-  p.style.opacity=.4+Math.random()*.5;
-  document.body.appendChild(p);
-  setTimeout(()=>p.remove(),13000);
-},350);
+/* ═══════════ SCROLL REVEAL ═══════════ */
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting)e.target.classList.add("on");
+}),{threshold:.12});
+document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 
-/* ================= NHẠC NỀN (tùy chọn) ================= */
+/* ═══════════ TOP BTN ═══════════ */
+addEventListener("scroll",()=>document.getElementById("topBtn").style.display=scrollY>500?"block":"none");
+
+/* ═══════════ NHẠC NỀN ═══════════ */
 let audio=null,musicOn=false;
 document.getElementById("musicBtn").onclick=function(){
-  if(!audio){
-    audio=new Audio();audio.loop=true;audio.volume=.4;
-    // ⚠️ Thay link nhạc của bạn vào đây (upload file .mp3 lên repo rồi dán link)
-    audio.src="nhac-nen.mp3";
-  }
+  if(!audio){audio=new Audio();audio.loop=true;audio.volume=.4;audio.src="nhac-nen.mp3";}
   musicOn=!musicOn;
-  musicOn?audio.play().catch(()=>alert("⚠️ Chưa có file nhac-nen.mp3 trong repo — upload nhạc rồi thay link trong code nhé!")):audio.pause();
+  musicOn?audio.play().catch(()=>alert("⚠️ Upload file nhac-nen.mp3 lên repo rồi mới bật được nhạc nhé!")):audio.pause();
   this.textContent=musicOn?"🔊":"🎵";
 };
-
-/* ================= NÚT VỀ ĐẦU ================= */
-addEventListener("scroll",()=>{
-  document.getElementById("topBtn").style.display=scrollY>500?"block":"none";
-});
 </script>
 </body>
 </html>

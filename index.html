@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌷 8/3 • Lớp 11B2 - THPT Châu Thành 🌷</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(180deg,#ffe6f2 0%,#ffd6ec 50%,#ffc9e5 100%);
+    min-height:100vh; text-align:center; color:#c2185b; overflow-x:hidden;
+  }
+  .container { max-width:800px; margin:0 auto; padding:20px; }
+  h1 { font-size:1.6em; margin:20px 0; }
+  .envelope { font-size:4em; cursor:pointer; transition:transform .3s; display:inline-block; margin:20px; }
+  .envelope:hover { transform:scale(1.2) rotate(-5deg); }
+  .letter {
+    background:#fff; border-radius:16px; padding:24px; margin:20px auto;
+    box-shadow:0 4px 20px rgba(194,24,91,.2); display:none; text-align:left; line-height:1.8;
+  }
+  .letter.show { display:block; animation:pop .5s; }
+  @keyframes pop { from{transform:scale(.5);opacity:0} to{transform:scale(1);opacity:1} }
+  .garden {
+    display:grid; grid-template-columns:repeat(4,1fr); gap:14px;
+    background:#e8f5e9; border-radius:16px; padding:20px; margin:20px 0;
+  }
+  .flower { font-size:2.4em; cursor:pointer; transition:transform .2s; }
+  .flower:hover { transform:scale(1.3); }
+  .flower.opened { filter:grayscale(.4); }
+  .counter { font-weight:bold; margin:10px 0; }
+  .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5);
+    z-index:100; align-items:center; justify-content:center; }
+  .modal.show { display:flex; }
+  .modal-content {
+    background:#fff; border-radius:20px; padding:30px; max-width:340px;
+    width:90%; animation:pop .4s; position:relative;
+  }
+  .close-btn { position:absolute; top:8px; right:14px; font-size:1.4em; cursor:pointer; color:#999; }
+  .surprise-btn {
+    background:#e91e63; color:#fff; border:none; padding:14px 24px;
+    border-radius:30px; font-size:1.1em; cursor:pointer; margin:20px 0;
+    animation:beat 1s infinite;
+  }
+  @keyframes beat { 0%,100%{transform:scale(1)} 50%{transform:scale(1.07)} }
+  .party { display:none; font-size:1.4em; line-height:2; background:#fff3e0;
+    border-radius:16px; padding:20px; margin:20px 0; }
+  footer { padding:30px 10px; color:#ad1457; font-size:.9em; }
+  .hearts span { position:fixed; animation:float 4s linear infinite; font-size:1.5em; z-index:1; }
+  @keyframes float { from{bottom:-30px;opacity:1} to{bottom:110vh;opacity:0} }
+</style>
+</head>
+<body>
+<div class="hearts" id="hearts"></div>
+<div class="container">
+  <p>🔔 Âm thanh: Bật 🌷 ✨ 🌸 💝</p>
+  <h1>🌷 Trường THPT Châu Thành • Lớp 11B2 🌷<br>
+  <small>Happy International Women's Day<br>8 Tháng 3 • Dành tặng một nửa thế giới tuyệt vời của 11B2</small></h1>
+
+  <div class="envelope" id="envelope" onclick="openLetter()">💌</div>
+  <p>💕 ✨ Gửi những bông hoa 11B2... Nhấn vào đây để mở thư nhé! 💕 ✨</p>
+  <p><small>(Chạm vào phong thư để bắt đầu hành trình bất ngờ)</small></p>
+
+  <div class="letter" id="letter">
+    <h2>🌷 Kỷ Niệm 8/3 • Lớp 11B2 - THPT Châu Thành 🌷</h2>
+    <h3>Chào Mừng Những Đóa Hoa Rực Rỡ Nhất 11B2</h3>
+    <p>Cảm ơn 22 mảnh ghép dịu dàng, thông minh và đáng yêu đã khiến thanh xuân
+    lớp 11B2 dưới mái trường THPT Châu Thành trở nên thật rực rỡ! 😎 💐</p>
+    <p><b>✨ Đội hình bảo vệ và chiều chuộng 22 công chúa 11B2 ✨</b><br>— Tập thể nam thần 11B2 —</p>
+    <p><b>📎 Tâm thư từ hội con trai 11B2</b></p>
+    <p>Gửi 22 bông hoa xinh đẹp nhất của tập thể 11B2 – THPT Châu Thành,</p>
+    <p>Tháng Ba về mang theo tiết xuân ấm áp, cũng là lúc hội con trai 11B2
+    chúng tối muốn gửi tới các cậu những lời chúc ngọt ngào và chân thành nhất
+    nhân ngày Quốc tế Phụ nữ 8/3! 🌷</p>
+    <p>Dù đã cùng nhau đi qua bao tiết học, giờ ra chơi dưới mái trường THPT Châu Thành,
+    nhưng sự xuất hiện của 22 bạn nữ đã biến từng phút giây của
+    11B2 trở nên rộn ràng và đầy ắp tiếng cười. Đôi khi tụi con trai chúng tối hơi
+    vụng về, hay trêu chọc các cậu thế thôi, chứ trong lòng luôn ngưỡng mộ và
+    trân quý các cậu thật nhiều.</p>
+    <p>Chúc các bạn nữ 11B2 ngày 8/3 ngập tràn niềm vui, luôn xinh tươi như hoa
+    nở mùa xuân, học tập thật đỉnh, đạt điểm 9 điểm 10 rực rỡ và cùng nhau viết nên
+    thật nhiều kỷ niệm thanh xuân tuyệt đẹp nhé!</p>
+    <p><b>Thương gửi từ hội Nam sinh 11B2 💝</b></p>
+  </div>
+
+  <h2>🌷 22 Đóa Hoa Độc Bản • Chạm Vào Hoa Để Đọc Lời Chúc 🌷</h2>
+  <h3>Khu vườn xuân ngập tràn sắc hương 11B2</h3>
+  <p>Mỗi bông hoa dưới đây mang tên một bạn nữ của lớp 11B2.
+  Hãy nhấn vào từng bông hoa để mở lời nhắn riêng nhé!</p>
+  <p class="counter">🌸 Đã mở lời chúc: <span id="count">0</span>/22 bông hoa</p>
+  <div class="garden" id="garden"></div>
+  <p>🦋 Nắng xuân Châu Thành 🌿 Thảo nguyên 11B2 (22 bông hoa)</p>
+  <p>🌱 Mẹo: Nhấp vào bất kỳ bông hoa nào để xem lời chúc cá nhân hóa! 💖</p>
+
+  <h2>🎁 Tiết Mục Đặc Biệt Nhất Hôm Nay 🎁</h2>
+  <p>Khoan đã... Đừng vội đóng trang web nhé!</p>
+  <p>Những bông hoa trên màn hình chỉ mới là màn khởi động thôi.
+  Hội con trai 11B2 vẫn còn giấu một bí mật siêu to khổng lồ dành cho các cậu!</p>
+  <button class="surprise-btn" onclick="showParty()">🎉 CÒN MỘT ĐIỀU BẤT NGỜ NỮA... NHẤN VÀO ĐÂY! 💐</button>
+  <div class="party" id="party">
+    <h2>🎊 Đại Tiệc Bất Ngờ 8/3 • Lớp 11B2 THPT Châu Thành</h2>
+    <p>💐🌹👑🌹💐</p>
+    <p><b>Ting ting! Thông báo khẩn từ các chàng trai 11B2:</b></p>
+    <p><b>MỜI CÁC BẠN NHÌN RA CỬA LỚP ĐỂ NHẬN HOA THẬT NHÉ!</b></p>
+    <p>1, 2, 3... Cùng quay ánh mắt ra phía cửa lớp 11B2 ngay bây giờ nào!</p>
+    <p>🏃‍♂️💐 Nam 11B2 • 🧑‍🎓🌹 Shipper Hoa • 💃🌷🎁 Soái Ca 11B2<br>
+    💝 • 🎁🌷💃 Ga-lăng 11B2 • 🌹🧑‍🎓 Hoàng Tử Hoa • 💐🏃‍♂️ Nam 11B2</p>
+  </div>
+
+  <footer>Coded with 💖 by Tập thể Nam sinh 11B2. Chúc mừng 8/3!<br>
+  Trường THPT Châu Thành • Niên khóa 2026</footer>
+</div>
+
+<!-- Modal lời chúc từng bạn -->
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">✕</span>
+    <h2 id="modalTitle"></h2>
+    <p>✨ Đóa hoa rạng rỡ của 11B2 ✨</p>
+    <p id="modalMsg" style="line-height:1.8;margin-top:12px"></p>
+  </div>
+</div>
+
+<script>
+// 💡 Muốn lời chúc riêng từng bạn thì sửa phần msg nhé
+const girls = [
+  {name:"Châu Nguyễn Khả Ái",       msg:"Chúc Ái ngày 8/3 thật rực rỡ, luôn xinh đẹp, tự tin và đạt điểm 9 điểm 10 nhé! 💖"},
+  {name:"Lê Kim Anh",               msg:"Chúc Kim Anh ngày 8/3 ngập tràn niềm vui, luôn tươi cười như hoa nở mùa xuân! 🌸"},
+  {name:"Trương Khánh Băng",        msg:"Chúc Khánh Băng ngày 8/3 thật ngọt ngào, học giỏi và hạnh phúc nhé! 💝"},
+  {name:"Thị Mỹ Đào",               msg:"Chúc Mỹ Đào ngày 8/3 xinh tươi rạng rỡ, mọi điều tốt đẹp nhất! 🌷"},
+  {name:"Lê Thị Cẩm Giang",         msg:"Chúc Cẩm Giang ngày 8/3 thật vui vẻ, luôn lạc quan và rạng rỡ! 💕"},
+  {name:"Thị Mỹ Hậu",               msg:"Chúc Mỹ Hậu ngày 8/3 ngập tràn yêu thương, luôn xinh đẹp và tự tin! 🌺"},
+  {name:"Lê Thị Huyền",             msg:"Chúc Huyền ngày 8/3 thật rực rỡ, học tập thật đỉnh nhé! ✨"},
+  {name:"Lê Thị Ngọc Huyền",        msg:"Chúc Ngọc Huyền ngày 8/3 luôn xinh tươi, vui vẻ và thành công! 🌸"},
+  {name:"Phạm Ngọc Huỳnh",          msg:"Chúc Ngọc Huỳnh ngày 8/3 thật đặc biệt, luôn đáng yêu và rạng rỡ! 💖"},
+  {name:"Danh Thiên Kiều",          msg:"Chúc Thiên Kiều ngày 8/3 ngập tràn niềm vui và những điều kỳ diệu! 🌷"},
+  {name:"Lý Tú Mỹ",                 msg:"Chúc Tú Mỹ ngày 8/3 luôn xinh đẹp, tự tin và rực rỡ như hoa! 💝"},
+  {name:"Lâm Thị Hồng Ngọc",        msg:"Chúc Hồng Ngọc ngày 8/3 thật vui, luôn tỏa sáng theo cách của riêng mình! ✨"},
+  {name:"Võ Như Ngọc",              msg:"Chúc Như Ngọc ngày 8/3 ngọt ngào, hạnh phúc và thành công! 🌺"},
+  {name:"Vũ Nguyễn Hạnh Nguyên",    msg:"Chúc Hạnh Nguyên ngày 8/3 thật rực rỡ, luôn vui vẻ và học giỏi nhé! 💕"},
+  {name:"Võ Ngọc Nhung",            msg:"Chúc Ngọc Nhung ngày 8/3 luôn xinh tươi như bông hoa mùa xuân! 🌷"},
+  {name:"Lưu Ngọc Nữ",              msg:"Chúc Ngọc Nữ ngày 8/3 thật đặc biệt, luôn đáng yêu và rạng rỡ! 💖"},
+  {name:"Võ Ngọc Thuỳ",             msg:"Chúc Ngọc Thuỳ ngày 8/3 ngập tràn niềm vui và tiếng cười! 🌸"},
+  {name:"Nguyễn Minh Thư",          msg:"Chúc Minh Thư ngày 8/3 luôn xinh đẹp, tự tin và rực rỡ! ✨"},
+  {name:"Tăng Anh Thư",             msg:"Chúc Anh Thư ngày 8/3 thật vui vẻ, học giỏi và hạnh phúc! 💝"},
+  {name:"Huỳnh Trương Bích Trang",  msg:"Chúc Bích Trang ngày 8/3 luôn tỏa sáng, xinh đẹp và thành công! 🌺"},
+  {name:"Huỳnh Kim Xuyến",          msg:"Chúc Kim Xuyến ngày 8/3 thật ngọt ngào, luôn đáng yêu và rạng rỡ! 💕"},
+  {name:"Lâm Ngọc Yến",             msg:"Chúc Ngọc Yến ngày 8/3 ngập tràn yêu thương, luôn xinh tươi như hoa! 🌷"}
+];
+const emojis = ["🌸","🌷","🌹","🌺","🌼","🌻","💐","🪷"];
+let opened = 0;
+const garden = document.getElementById("garden");
+girls.forEach((g,i)=>{
+  const f = document.createElement("div");
+  f.className = "flower";
+  f.textContent = emojis[i % emojis.length];
+  f.onclick = ()=>{
+    document.getElementById("modalTitle").textContent = "🌸 Bông hoa #"+(i+1)+" của 11B2 • "+g.name;
+    document.getElementById("modalMsg").textContent = g.msg + " — Thương gửi từ hội nam sinh 11B2 💝";
+    document.getElementById("modal").classList.add("show");
+    if(!f.classList.contains("opened")){
+      f.classList.add("opened");
+      document.getElementById("count").textContent = ++opened;
+    }
+  };
+  garden.appendChild(f);
+});
+function openLetter(){ document.getElementById("letter").classList.add("show");
+  document.getElementById("letter").scrollIntoView({behavior:"smooth"}); }
+function closeModal(){ document.getElementById("modal").classList.remove("show"); }
+function showParty(){ const p=document.getElementById("party");
+  p.style.display="block"; p.scrollIntoView({behavior:"smooth"}); burst(); }
+function burst(){
+  const emojisF = ["💕","🌸","💖","🌷","✨","💝"];
+  for(let i=0;i<25;i++){
+    const s=document.createElement("span");
+    s.textContent=emojisF[Math.floor(Math.random()*emojisF.length)];
+    s.style.left=Math.random()*100+"vw";
+    s.style.animationDuration=(3+Math.random()*3)+"s";
+    s.style.animationDelay=(Math.random()*2)+"s";
+    document.getElementById("hearts").appendChild(s);
+  }
+}
+</script>
+</body>
+</html>
